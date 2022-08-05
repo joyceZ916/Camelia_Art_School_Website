@@ -1,0 +1,174 @@
+{{!-- Page leader: Denise --}}
+
+{{!-- Form to add class time --}}
+<div class="jumbotron">
+    <div class="container-fluid">
+
+        <h2>Schedule a Class Time </h2>
+        <h5>Utilzie this form to add a new class time to be the Camellia
+            Art School schedule:</h5>
+        <p>You will receive a confirmation message if the class
+            time
+            was successfully added.</p>
+        <p>Note: Classes may only be schedueled between 9AM-5PM. Classes cannot be schedueled back to back (to allow teachers time to setup and students to arrive to class easily).</p>
+
+        <form id="addLocationForm" method="POST" action="/AddClassTime">
+            <div class="form-row">
+                <div class="col-auto">
+                    <label for="add_search_form_Data">Session:</label>
+                    <select class="form-control" name="session" id="session" required>
+                        {{#each sessions}}
+                        <option value="{{this.session_id}}">
+                            {{this.class_name}} {{this.quarter}} {{this.session_name}}
+                        </option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="col-auto">
+                    <label for="add_classTime_form_Data">Location:</label>
+                    <select class="form-control" name="location" id="location" required>
+                        {{#each locations}}
+                        <option value="{{this.location_id}}">
+                            {{this.location_name}}
+                        </option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="col-auto">
+                    <label for="add_classTime_form_Data">Day:</label>
+                    <select class="form-control" name="day" id="day" required>
+                        <option value="0">Monday</option>
+                        <option value="1">Tuesday</option>
+                        <option value="2">Wednesday</option>
+                        <option value="3">Thursday</option>
+                        <option value="4">Friday</option>
+                    </select>
+                </div>
+
+                <div class="col-auto">
+                    <label for="add_classTime_form_Data">Start
+                        Time:</label>
+                    <input class="form-control" type="time" id="start_time" min="09:00" max="17:00" name="start_time" required>
+                </div>
+
+                <div class="col-auto">
+                    <label for="add_classTime_form_Data">End
+                        Time:</label>
+                    <input class="form-control" type="time" id="end_time" min="09:00" max="17:00" name="end_time" required>
+                </div>
+
+
+
+            </div>
+            <button type="submit" class="btn btn-primary" id="class_time_submit">Submit</button>
+        </form>
+
+
+        <p style="background-color:powderblue;">
+            {{added.success}}
+        </p>
+        <p style="background-color:red;">
+            {{check.error}}
+        </p>
+
+
+
+
+
+        <h2>Search for a schedueled Class Time(s) </h2>
+
+        <form id="searchTimesForm" method="GET" action="/SearchClassTimes">
+
+            <div class="form-row">
+                <div class="col-auto">
+                    <label for="add_search_form_Data">Session:</label>
+                    <select class="form-control" name="session_id" id="session_id" required>
+                        {{#each sessions}}
+                        <option value="{{this.session_id}}">
+                            {{this.class_name}} {{this.quarter}} {{this.session_name}}
+                        </option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="col-auto">
+                    <label for="add_search_form_Data">Location:</label>
+                    <select class="form-control" name="location_id" id="location_id" required>
+                        {{#each locations}}
+                        <option value="{{this.location_id}}">
+                            {{this.location_name}}
+                        </option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="col-auto">
+                    <label for="add_search_form_Data">Day:</label>
+                    <select class="form-control" name="day" id="day" required>
+                        <option value="0">Monday</option>
+                        <option value="1">Tuesday</option>
+                        <option value="2">Wednesday</option>
+                        <option value="3">Thursday</option>
+                        <option value="4">Friday</option>
+                    </select>
+
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="class_time_search">Search</button>
+        </form>
+
+
+
+        <h2>Search Results:</h2>
+        <p>Note: If "Teacher" section is blank, then no Teacher has been assigned to that Session.
+            Please add Teacher to this session in the <a href="/Sessions">Sessions</a> page.</p>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table table-hover table-bordered table-striped table-light">
+                <thead class="thead-dark">
+                    <tr scope="row">
+                        <th scope="col-2">Class Time ID: </th>
+                        <th scope="col">Session: </th>
+                        <th scope="col">Location:</th>
+                        <th scope="col">Teacher:</th>
+                        <th scope="col">Day:</th>
+                        <th scope="col">Start Time: </th>
+                        <th scope="col">End Time:</th>
+                        <th scope="col">Delete Class Time:</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <form id="deleteClassTime" method="DELETE" action="/deleteClassTime">
+                        {{#each results}}
+                        <tr scope="row" id="{{this.class_time_id}}">
+                            <td scope="col-2" >
+                                {{this.class_time_id}}</td>
+                            <td scope="col">
+                                {{this.class_name}} {{this.quarter}} {{this.session_name}}</td>
+                            <td scope="col">
+                                {{this.location_name}}</td>
+                            <td scope="col">
+                                {{this.full_name}}</td>
+                            
+                            
+                            <td scope="col">
+                                {{this.day}}</td>
+                            <td scope="col">
+                                {{this.start_time}}</td>
+                            <td scope="col">
+                                {{this.end_time}}</td>
+                            <td scope="col">
+                                <input type="submit" id="{{this.class_time_id}}" class="btn btn-primary btn-sm" value="Delete"></input>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </form>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script ype="text/javascript" src="/static/deleteClassTime.js"></script>

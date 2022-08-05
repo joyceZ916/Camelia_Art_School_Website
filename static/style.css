@@ -1,0 +1,58 @@
+body{
+    margin: 0;
+}
+
+* {
+    font-family: Calibri,Candara,Segoe,Segoe UI,Optima,Arial,sans-serif;
+}
+
+.scrollable_content {
+    height: 250px;
+    overflow-y: scroll;
+    padding: 12px;
+}
+
+.centered {
+    text-align: center;
+}
+
+h1{
+    padding: 12px;
+}
+
+button{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.smallT{
+    font-size: 10pt;
+    color: mediumvioletred;
+}
+.bigT{
+    font-size: 16pt;
+    color: mediumvioletred;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: rgb(37, 176, 211);
+  }
+
+.list-group a:hover{
+    background-color: rgb(37, 176, 211);
+}
+
+.table-bordered td, th {
+      vertical-align: middle;
+      padding-top: 12px;
+      padding-bottom: 12px; 
+      text-align: center;
+    }
+
+.my-custom-scrollbar {
+    position: relative;
+    height: 400px;
+    overflow: auto;
+    width: 90%;
+    }
+

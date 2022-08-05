@@ -1,0 +1,71 @@
+{{!-- Page leader: Qin --}}
+
+{{!-- View all the teachers --}}
+<div class="jumbotron">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h2>Camellia Art School's Teachers </h2>
+                <h5>Table displays all teachers from the school:</h5>
+
+                {{!-- Display as a table of all the Teachers --}}
+                <caption><b> Teachers Table </b></caption>
+                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table  table-hover table-bordered table-striped table-light mb-0">
+                        <thead class="thead-dark">
+                            <tr scope="row">
+                                <th scope="col"> Name </th>
+                                <th scope="col"> Email </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each rows}}
+                            <tr scope="row">
+                                <td>{{this.f_name}} {{this.l_name}}</td>
+                                <td> {{this.email}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-1"></div>
+            <div class="col">
+                {{!-- Form to add teachers --}}
+
+                <h2>Add A Teacher </h2>
+                <p>Note: All fields required to be completed:</p>
+                <form id="addTeacherForm" method="POST" action="/api/teachers">
+                    <div class="form-group">
+                        <div class="col-6">
+                            <label for="add_teacher_form_Data">First Name:</label>
+                            <input class="form-control" type="text" name="f_name" id="f_name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-6">
+                            <label for="add_teacher_form_Data">Last Name:</label>
+                            <input class="form-control" type="text" name="l_name" id="l_name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-6">
+                            <label for="add_teacher_form_Data">Email:</label>
+                            <input class="form-control" type="text" name="email" id="email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col">
+                            <input class="btn btn-primary" type="submit" id="teacher_submit" value="Submit">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript" src="/static/teachers.js"></script>
+
+</div>

@@ -1,0 +1,204 @@
+{{!-- Page leader: Qin --}}
+
+{{!-- Filter search to see Sessions in database --}}
+{{!-- Form for Sessions search --}}
+<div class="jumbotron">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col">
+
+                <h2>Find Session(s) </h2>
+                <h5>Please use this form to find available class sessions:</h5>
+                <p>Note: Quarter is broken down into YYYY-Quarter#, example: 2020-1 is year 2020 quarter 1</p>
+                <form id="findSessionsForm" method="GET" action="/Sessions">
+
+                    {{!-- first selecet a class name --}}
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <label for="class_id">Choose a Class Name:</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-control" name="class_id" id="class_id">
+                                {{#each classes}}
+                                <option value="{{this.class_id}}">{{this.class_name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <label for="quarter">Quarter:</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-control" name="quarter" id="quarter">
+                                <option value="20201">2020-1</option>
+                                <option value="20202">2020-2</option>
+                                <option value="20203">2020-3</option>
+                                <option value="20204">2020-4</option>
+                                <option value="20211">2021-1</option>
+                                <option value="20212">2021-2</option>
+                                <option value="20213">2021-3</option>
+                                <option value="20214">2021-4</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <input class="btn btn-primary" type="submit" id="class_submit" value="Search">
+                        </div>
+                    </div>
+                </form>
+                <br>
+                <br>
+          
+                <h2>Sessions Table:</h2>
+                <p>Note: If the "Teachers" section is blank, then no Teacher has been assigned to this Session.
+                    Please use the "Update A Session" form to add a teacher to a specific session.</p>
+                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table table-hover table-bordered table-striped table-light" width="100%">
+                        <thead class="thead-dark">
+                            <tr scope="row">
+                                <th scope="col">Session Name:</th>
+                                <th scope="col">Teacher</th>
+                                <th scope="col">Quarter</th>
+                                <th scope="col">Session Size</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {{#each filtered_sessions}}
+                            <tr>
+                                <td>{{this.class_name}} {{this.quarter}} {{this.session_name}}</td>
+                                <td>{{this.f_name}} {{this.l_name}}</td>
+                                <td>{{this.quarter}}</td>
+                                <td>{{this.session_size}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {{!-- Form to add Sessions --}}
+
+            <div class="col">
+
+                <h2>Add A Session </h2>
+                <h5>Please use this form to add a session:</h5>
+                <p>Note: All fields must be completed</p>
+
+                <form id="addSessionForm" method="POST" action="/AddSession">
+
+                    {{!-- database requirements: class_id (FK from Classes database table) --}}
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="class_id">Class Name:</label>
+                            <select class="form-control" name="class_id" id="class_id">
+                                {{#each classes}}
+                                <option value="{{this.class_id}}">{{this.class_name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        {{!-- database requirements: quarter (int, not NULL) --}}
+                        <div class="form-group">
+                            <label for="quarter">Quarter:</label>
+                            <select class="form-control" name="quarter" id="quarter">
+                                <option value="20201">2020-1</option>
+                                <option value="20202">2020-2</option>
+                                <option value="20203">2020-3</option>
+                                <option value="20204">2020-4</option>
+                                <option value="20211">2021-1</option>
+                                <option value="20212">2021-2</option>
+                                <option value="20213">2021-3</option>
+                                <option value="20214">2021-4</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="session_name">Session Name (a or b):</label>
+                            <input class="form-control" type="text" name="session_name" id="session_name" required>
+                        </div>
+
+                        {{!-- database requirements: teacher_id (FK from Teachers database table) --}}
+                        <div class="form-group">
+                            <label for="teacher_id">Teacher Name:</label>
+                            <select class="form-control" name="teacher_id" id="teacher_id">
+                                {{#each teachers}}
+                                <option value="{{this.teacher_id}}">{{this.f_name}} {{this.l_name}}</option>
+                                {{/each}}
+                                <option value="NULL">NULL</option>
+                            </select>
+                        </div>
+
+                        {{!-- database requirements: session_size (int, not NULL) --}}
+                        <div class="form-group">
+                            <label for="session_size">Session Size:</label>
+                            <input class="form-control" type="number" name="session_size" id="session_size" required>
+                        </div>
+                    </div>
+
+                    <input class="btn btn-primary" type="submit" id="session_submit" value="Submit">
+                </form>
+                <br>
+
+                <h2>Update A Session </h2>
+                <h5>Please use this form to update a session:</h5>
+                <p>Note: All fields must be completed</p>
+
+                <form id="updateSessionForm">
+                    <div class="form-row">
+                        {{!-- first selecet a session name --}}
+                        <div class="form-group">
+                            <label for="session_id">Select a Session Name:</label>
+                            <select class="form-control" name="session_id" id="session_id">
+                                {{#each sessions}}
+                                <option value="{{this.session_id}}">{{this.class_name}} {{this.quarter}} {{this.session_name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        {{!-- database requirements: teacher_id (FK from Teachers database table) --}}
+                        <div class="form-group">
+                            <label for="teacher_id">Teacher Name:</label>
+                            <select class="form-control" name="teacher_id" id="teacher_id">
+                                {{#each teachers}}
+                                <option value="{{this.teacher_id}}">{{this.f_name}} {{this.l_name}}</option>
+                                {{/each}}
+                                <option value="NULL">NULL</option>
+                            </select>
+                        </div>
+                        {{!-- database requirements: session_size (int, not NULL) --}}
+                        <div class="form-group">
+                            <label for="session_size">Session Size:</label>
+                            <input class="form-control" type="number" name="session_size" id="session_size" required>
+                        </div>
+                    </div>
+                    <input class="btn btn-primary" type="submit" id="session_update" value="Submit">
+                </form>
+                <br>
+
+
+                <h2>Delete A Session </h2>
+                <h5>Please use this form to delete a session:</h5>
+                <p></p>
+
+                <form id="deleteSessionForm" method="DELETE" action="/deleteSession">
+                    <div class="form-row align-items-center">
+                        {{!-- first selecet a session name --}}
+                        <div class="col-auto">
+                            <label for="session_id">Select a Session Name:</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-control" name="session_id" id="session_id">
+                                {{#each sessions}}
+                                <option value="{{this.session_id}}">{{this.class_name}} {{this.quarter}} {{this.session_name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <input class="btn btn-primary" type="submit" id="session_delete" value="Delete">
+                        </div>
+                    </div>
+                </form>
+                <br>
+                <script type="text/javascript" src="/static/sessions.js"></script>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+{{!-- Page leader: Qin --}}
+{{!-- Notes:
+
+- View students - SELECT query required
+- Add a student - INSERT - required
+- Update students - UPDATE query required (can update email) --}}
+
+
+{{!-- View all the students --}}
+<div class="jumbotron">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+
+                <h2>Camellia Art School's Students </h2>
+                <p>Displays all students from the school.</p>
+                <p>Note: Lists all students enrolled in the school:</p>
+
+
+                {{!-- Display as a table of all the Students --}}
+                <!-- table -->
+                <h2>Students:</h2>
+                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table  table-hover table-bordered table-striped table-light mb-0" width="60%">
+                        <thead class="thead-dark">
+                            <tr scope="row">
+                                <th scope="col"> Name </th>
+                                <th scope="col"> Email </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each rows}}
+                            <tr scope="row">
+                                <td>{{this.f_name}} {{this.l_name}}</td>
+                                <td> {{this.email}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-1"></div>
+
+            <div class="col">
+                {{!-- Form to add students --}}
+
+                <h2>Add A Student </h2>
+                <p>Note: All fields required to becompleted prior to submission.</p>
+                <form id="addStudentForm">
+
+                    <div class="form-group">
+                        <div class="col-6">
+                            <label for="add_student_form_Data">First Name:</label>
+                            <input class="form-control" type="text" name="f_name" id="f_name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-6">
+                            <label for="add_student_form_Data">Last Name:</label>
+                            <input class="form-control" type="text" name="l_name" id="l_name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-6">
+                            <label for="add_student_form_Data">Email:</label>
+                            <input class="form-control" type="text" name="email" id="email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-6">
+                            <input class="btn btn-primary" type="submit" id="student_submit" value="Submit">
+                        </div>
+                    </div>
+
+
+                </form>
+                <br>
+
+
+                {{!-- Form to update students email --}}
+                <h2>Update Student's Email </h2>
+                <p>Note: All fields required to becompleted prior to submission.</p>
+                <form id="updateStudentForm" method="POST" action="/UpdateStudent">
+                    <div class="form-group">
+                        {{!-- first selecet a student name --}}
+                        <div class="col-6">
+                            <label for="student_id">Choose a Student Name:</label>
+                            <select class="form-control" name="student_id" id="student_id">
+                                {{#each rows}}
+                                <option value="{{this.student_id}}">{{this.f_name}} {{this.l_name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-6">
+                            <label for="student_id">New Email:</label>
+                            <input class="form-control" type="text" name="email" id="email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-6">
+                            <input class="btn btn-primary" type="submit" id="student_update" value="Submit">
+                        </div>
+                    </div>
+                </form>
+                <br>
+
+                <script type="text/javascript" src="/static/students.js"></script>
+            </div>
+        </div>
+    </div>
+</div>

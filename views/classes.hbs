@@ -1,0 +1,60 @@
+{{!-- Page leader: Denise --}}
+
+{{!-- Form to add class --}}
+<div class="jumbotron">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h2>Add Class to Curriculum </h2>
+                <h5>Utilzie this form to add new classes to be the Camellia
+                    Art School curriculum:</h5>
+                <p>Note: You will receive a confirmation message if the class
+                    was
+                    successfully added.</p>
+                <form id="addClassForm" method="POST" action="/AddClass">
+                    <div class="form-group">
+                        <div class="col-7">
+                            <label for="add_class_form_Data">Class Name:</label>
+                            <input type="text" class="form-control" name="className" id="className" placeholder="Enter new class name here" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-9">
+                            <label for="add_class_form_Data">Class
+                                Description:</label>
+                            <textarea class="form-control" rows="4" cols="50" name="classDescription" id="classDescription"
+                                placeholder="Enter class's description here (maximum 255 characters)" maxlength="255" required></textarea>
+                            <button type="submit" class="btn btn-primary" id="classes_submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-8">
+                {{!-- Filter search to see classes --}}
+                <h2>View current list of classes in curriculum: </h2>
+
+                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table table-hover table-bordered table-striped table-light">
+                        <thead class="thead-dark">
+                            <tr scope="row" class="d-flex">
+                                <th scope="col" class="col-3">Class Name</th>
+                                <th scope="col" class="col-9">Class Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each rows}}
+                            <tr scope="row" class="d-flex">
+                                <td scope="col" class="col-3">{{this.class_name}}</td>
+                                <td scope="col" class="col-9">{{this.class_description}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

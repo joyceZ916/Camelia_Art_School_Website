@@ -1,0 +1,115 @@
+{{!-- Page leader: Denise --}}
+
+{{!-- Form to add location --}}
+
+<div class="jumbotron">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h2>Add New Location </h2>
+                <h5>Utilzie this form to add new locations that will be utilized
+                    by Camellia
+                    Art School here:</h5>
+                <p>Note: You will receive a confirmation message if the location
+                    was
+                    successfully added.</p>
+
+                <form id="addLocationForm" method="POST" action="/AddLocation">
+                    <div class="form-group">
+                        <div class="col-5">
+                            <label for="add_location_form_Data">Location
+                                Name:</label>
+                            <input class="form-control" type="text" name="name" id="name" placeholder="Enter new location name here" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-3">
+                            <label for="add_location_form_Data">Indoors or
+                                Outdoors:</label>
+                            <select class="form-control" name="indoor" id="indoor" required>
+                                <option value="1">Indoors</option>
+                                <option value="0">Outdoors</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-3">
+                            <label for="add_location_form_Data">Location
+                                capacity:</label>
+                            <input class="form-control" type="number" name="capacity" id="capacity" placeholder="Enter location's capacity here"
+                                required>
+
+                            <button type="submit" class="btn btn-primary" id="location_submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                <p style="background-color:powderblue;">{{added.success}}</p>
+            </div>
+
+            <div class="col">
+
+                {{!-- Filter search to see locations in database --}}
+                {{!-- Form for locations search --}}
+
+                <h2>Search School Locations </h2>
+                <h5>Utilzie this form to find locations per your specified
+                    search criteria:
+                </h5>
+                <p>Note: If no results exist per your search criteria, you will
+                    receive a
+                    error
+                    message.</p>
+                <form id="findLocationForm" method="GET" action="/FindLocation">
+                    <div class="form-group">
+                        <div class="col-3">
+                            <label for="searc_location_form_Data">Indoor or Outdoor:</label>
+                            <select class="form-control" name="indoor" id="indoor" required>
+                                <option value="1">Indoor Class</option>
+                                <option value="0">Outdoor Class</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label for="searc_location_form_Data">Location
+                                capacity:</label>
+                            <select class="form-control" name="capacity" id="capacity" required>
+                                {{#each rows}}
+                                <option value="{{this.capacity}}">
+                                    {{this.capacity}}
+                                </option>
+                                {{/each}}
+                            </select>
+                            <button type="submit" class="btn btn-primary" id="location_submit">Search</button>
+
+                        </div>
+                    </div>
+                </form>
+
+                <h6>Search Results:</h6>
+                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table  table-hover table-bordered table-striped table-light mb-0">
+                        <thead class="thead-dark">
+                            <tr scope="row">
+                                <th scope="col">Location Name:</th>
+                                <th scope="col">Indoors or Outdoors:</th>
+                                <th scope="col">Capacity:</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each results}}
+                            <tr scope="row">
+                                <td>{{this.location_name}}</td>
+                                <td>{{this.indoor}}</td>
+                                <td>{{this.capacity}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
